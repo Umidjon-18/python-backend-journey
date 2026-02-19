@@ -17,11 +17,13 @@ class Card:
             raise CardBlockedError("Card is blocked")
         if self._pin == value:
             self.failed_attempts = 0
+            return True
         else:
             self.failed_attempts += 1
-            if self.failed_attempts == 3:
+            if self.failed_attempts >= 3:
                 self.block_card()
                 raise CardBlockedError("Card is blocked")
+            return False
 
     def block_card(self):
         self.is_blocked = True
